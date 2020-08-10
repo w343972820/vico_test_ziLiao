@@ -1,0 +1,14 @@
+java+selenuim无界面linux下运行环境安装
+1 yum install libX11 libXcursor libXdamage libXext libXcomposite libXi libXrandr gtk3 libappindicator-gtk3 xdg-utils libXScrnSaver liberation-fonts
+2 wget https://dl.google.com/linux/direct/google-chrome-stable_current_x86_64.rpm
+3 yum localinstall google-chrome-stable_current_x86_64.rpm
+4 [root@localhost ~]# google-chrome --version　　查看google版本?
+
+
+5 下载google版本对应的chrome webdriver版本(83或84的),传至linux
+,windows下载链接:http://chromedriver.chromium.org/downloads
+
+
+
+6 将chromedriver拷贝至/usr/bin里面 (需将chromedriver改成可执行权限chmod +x chromedriver)
+
