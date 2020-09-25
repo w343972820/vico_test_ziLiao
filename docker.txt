@@ -1,0 +1,77 @@
+docker学习:
+在centos7下安装docker
+Docker 要求 CentOS 系统的内核版本高于 3.10 ，查看本页面的前提条件来验证你的CentOS 版本是否支持 Docker 。
+阿里云提供镜像加速器
+sudo mkdir -p /etc/docker
+sudo tee /etc/docker/daemon.json <<-'EOF'
+{
+  "registry-mirrors": ["https://ylijhzxv.mirror.aliyuncs.com"]
+}
+EOF
+sudo systemctl daemon-reload
+sudo systemctl restart docker
+
+------------------------------------------------------------------------------------------------------
+1 通过 uname -r 命令查看你当前的内核版本
+uname -r 
+2 使用 root 权限登录 Centos。确保 yum 包更新到最新。
+sudo yum update
+3、卸载旧版本(如果安装过旧版本的话)
+sudo yum remove docker  docker-common docker-selinux docker-engine
+4、安装需要的软件包， yum-util 提供yum-config-manager功能，另外两个是devicemapper驱动依赖的
+sudo yum install -y yum-utils device-mapper-persistent-data lvm2
+5 设置yum源
+sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+6、可以查看所有仓库中所有docker版本，并选择特定版本安装
+yum list docker-ce --showduplicates | sort -r
+7、安装docker
+sudo yum install docker-ce 
+8、启动并加入开机启动
+sudo systemctl start docker
+sudo systemctl enable docker
+9、验证安装是否成功(有client和service两部分表示docker安装启动都成功了)
+docker version
+--------------------------------------------docker命令----------------------------------------------------------
+1 docker version 查看docker版本信息
+2 docker info 信息
+3 docker images 当前docker下的镜像
+4 docker container ls 容器列表
+5 docker container ls --all  所有容器列表,包含已退出容器
+6 docker ps
+7 docker ps -a  (与上面两类似)
+8 docker run hello-world   (运行hello-world容器,先在本地找是否有该容器,没有上远程拉取(默认上hub.docker.com官网上拉取))
+9 docker pull ubuntu:16.04  (实例拉取镜像,拉取ubuntu的16.04版本镜像)
+10 docker run -it --rm ubuntu:16.04 /bin/bash  (docker下运行ubuntu,--rm的意思为退出ubuntu后容器立刻退出)
+11 docker system df 查看镜像跟容器所占空间大小
+12 docker start a1c5847ad77f(ID/容器名)  通过容器名或ID启动容器
+13 docker logs a1c5847ad77f(ID/容器名)  通过容器名或ID查看该容器日志
+14 docker restart a1c5847ad77f(ID/容器名)
+15 docker stop a1c5847ad77f(ID/容器名)
+15.1 docker rm a1c5847ad77f    (ID/容器名,删除容器)
+16 docker container rm a1c5847ad77f (删除容器)
+17 docker image rm hello-world  (删除镜像)  或 docker rmi hello-world
+18 docker run ubuntu:16.04 /bin/sh -c "while true;do echo Hello world; sleep 1;done"  (前台运行)
+19 docker run -d ubuntu:16.04 /bin/sh -c "while true;do echo Hello world; sleep 1;done"  (后台运行)
+20 docker container stop 25299f93e3f  (通过id停止容器后台运行) 或 docker stop 25299f93e3f 
+21 docker logs -f 25299f93e3f9(通过容器ID查看该容器日志.-f为实时查看)
+22 docker exec -it 25299f93e3f9 /bin/bash (进入到容器中去)
+23 docker run --name webserv -d -p 80:80 nginx  (运行webserv,本地没有镜像会去远程pull,将本地80端口对应docker80端口,有时本地端口可能被apacher或tomcat占用,需先停掉)
+24 webserv装好后可docker exec -it webserv /bin/bash 进入容器,cd usr/share/nginx/html/ 进入到nginx存放html的地方修改网页
+25 docker ps -aq  (查询所有容器,显示出ID)
+26 docker rm -f $(docker ps -aq)   删除所有容器
+
+----------------与git类似-------------------------------------------------------------------------------------------
+1 docker diff webserv  查看webserv改动情况
+2 docker commit --author "vico.com" --message "修改了默认首页" webserv nginx:v2  本地仓库提交一个快照
+3 docker history nginx:v2  查看该镜像历史记录
+4 docker run --name webserv2 -d -p 8082:80 nginx:v2   运行镜像里面的nginx:v2  运行的名字为webserv2端口为8082映射的docker端口为80(-d为在后台运行,-p为指定本地端口)
+---------------------------dockerfile-------------------------------------------------------------------------------
+1 docker build -t nginx:v3 .   将执行当前目录下的Dockerfile文件,构建一个镜像,镜像名为nginx:v3
+2 docker build -t nginx:v3 -f Dockerfile2 .   执行指定的Dockerfile文件
+3 docker save nginx:v3 | gzip > nginx.v3.tar.gz   打包保存镜像
+4 docker load -i nginx.v3.tar.gz     拉取打包的镜像
+  
+
+
+ 
+ 
