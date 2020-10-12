@@ -12,3 +12,17 @@ java+selenuim无界面linux下运行环境安装
 
 6 将chromedriver拷贝至/usr/bin里面 (需将chromedriver改成可执行权限chmod +x chromedriver)
 
+
+=====================================================================
+selenuim如何操作已打开的网页
+1 进入到Chrome目录
+cd C:\Program Files (x86)\Google\Chrome\Application
+2 运行以下命令,端口9222可自定义,代码需与之匹配
+chrome.exe --remote-debugging-port=9222 --user-data-dir="C:\Program Files (x86)\Google\Chrome\Application\selenium\AutomationProfile"
+3 运行完2的命令后会打开一个google浏览器,下面就可以写代码来操作这个游戏器了,将浏览器输入百度网址可以测试获取百度标题
+4 写java代码
+ 	System.setProperty("webdriver.chrome.driver", "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chromedriver.exe");
+        ChromeOptions options = new ChromeOptions();
+        options.setExperimentalOption("debuggerAddress", "127.0.0.1:9222");
+        WebDriver driver = new ChromeDriver(options);
+        System.out.println(driver.getTitle());
