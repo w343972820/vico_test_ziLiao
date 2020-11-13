@@ -1,0 +1,150 @@
+--------------------------------------------------------------------------------------------------------------------------------------------------
+Anaconda + VSCode (运行python)
+一、Anaconda 下载
+Anaconda 可以看做Python的一个集成安装，安装它后就默认安装了python、IPython、集成开发环境Spyder和众多的包和模块，让你在管理环境和包时更加方便。
+清华源下载更快:
+https://mirrors.tuna.tsinghua.edu.cn/anaconda/archive/
+
+二、Anaconda 安装
+安装过程中三个注意的地方：
+
+
+勾选 Alls Users
+
+勾选 Add Anaconda to the system PATH environment variable
+
+如果之前没有安装 VSCode，可以在 Anaconda 安装过程中选择安装
+
+
+
+三、VSCode 下载安装
+Anaconda 安装过程中 VSCode 有时候可能会出错，导致安装失败，这种情况下可以选择从 VSCode 官网下载安装。
+
+VSCode官网：https://code.visualstudio.com/Download#
+
+
+
+四、管理 conda(也就是包)
+安装完成后按Win+R打开cmd终端，输入conda --version
+如果正常输出了 conda 的版本，说明 Anaconda 成功安装了。
+
+2. 添加国内源
+
+查看现有源
+
+conda config --show-sources
+
+
+添加国内清华源
+
+conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free/
+
+
+conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main/
+
+
+删除默认源
+
+conda config --remove channels defaults
+
+
+设置搜索时显示通道地址
+
+conda config --set show_channel_urls yes
+
+
+
+3. 升级 conda
+设置完国内源后，升级 conda 的速度会快很多，之后安装包时也会从国内源下载。
+
+(可能暴错LoadError: Load Error: in C:\Users\Administrator\.condarc on line 4, column 46. Invalid YAML,如果暴该错则删除condarc文件)
+conda update conda
+
+
+升级时弹出Proceed ([y]/n)?时，选择y，确认升级。
+
+
+
+五、环境管理
+可跳过，直接用默认环境
+
+
+1. 查看 Python 版本
+
+python --version
+
+
+2. 创建环境
+上一步查到我电脑上的 Python 版本为 3.7.0 ，我想在这个版本基础上创建一个名为xiaolvshijie的虚拟环境。
+
+
+conda create -n xiaolvshijie python=3.7.0
+
+
+新的开发环境会被默认安装在你 conda 目录下的 envs 文件目录下。
+3. 激活环境
+activate xiaolvshijie
+4. 列出所有的环境
+conda info -e
+5. 切换到另一个环境
+
+activate xiaolvshijie
+
+
+6. 注销当前环境
+
+deactivate
+
+
+7. 复制环境
+
+conda create -n xiaolv --clone xiaolvshijie
+
+
+8. 删除环境
+
+conda remove -n xiaolv --all
+
+
+
+六、包管理
+
+1. 查看已安装包
+
+conda list
+
+
+2. 使用 Conda 命令安装包
+
+conda install beautifulsoup4
+
+
+3. 通过 pip 命令来安装包
+如果无法通过conda安装，可以用pip命令来安装包。
+
+
+pip install beautifulsoup4
+
+
+4. 移除包
+
+conda remove beautifulsoup4
+
+
+
+七、VSCode 配置
+1. 安装 Python 插件 (vscode内extensions内搜索python),选第一个按装就行了
+2 安装 Code Runner 插件
+--------------------------------------------------------------------------------------------------------------------------------------------------------
+按装插件如果pip跟conda都不能按装,则可下载插件xxx.whl至某个目录,cmd切换到该目录然后pip install xxx.whl 离线按装即可
+-----------------------------------------------------------pywinauto使用--------------------------------------------------------------------------------
+1 按装pywinauto插件(https://dl.pconline.com.cn/download/803718-1.html  下载spy++软件识别窗口句柄,窗口标题,类等)
+pip install pywinauto  或 conda install pywinauto
+2 按装pykeyboard插件(控制键盘),如果使用from pykeyboard import PyKeyboard 导入包暴错则可能需要安装其它依赖包
+pip install pykeyboard
+安装附加支持库，来实现 pykeyboard：
+例如可能的安装顺序为(可使用conda list查看目前已按装了哪些库如果已经装了则没必要在装)：
+1，安装Pyhook ，路径;https://www.lfd.uci.edu/~gohlke/pythonlibs/#pyhook .挑选合适自己的版本，在下载目录运行cmd > pip install xxx.whl
+2, 安装pywin32 ,安装命令：pip install pywin32 -i https://pypi.tuna.tsinghua.edu.cn/simple （其中 -i https 是代理服务器 非一般的速度）
+3, 安装PyUserInput ，安装命令：pip install PyUserInput -i https://pypi.tuna.tsinghua.edu.cn/simple
+
