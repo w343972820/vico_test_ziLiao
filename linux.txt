@@ -1,0 +1,6 @@
+查看端口占用:9000端口为php,一般服务器开启nginx开启80端口就行……不需要开apache80端口
+ss -tnl
+进入nginx查看nginx.conf端口及php指向
+cd /etc/nginx
+重启nginx
+nginx -s reload
